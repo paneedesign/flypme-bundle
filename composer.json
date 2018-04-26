@@ -1,6 +1,6 @@
 {
   "name": "paneedesign/flypme-bundle",
-  "description": "A PHP wrapper for Flyp.me APIs",
+  "description": "A Symfony Bundle for Flyp.me APIs",
   "type": "symfony-bundle",
   "require": {
     "ext-curl": "*",
