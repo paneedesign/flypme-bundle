@@ -3,7 +3,7 @@ parameters:
     ped_flyp_me.content_type: "application/json"
 
 services:
-    ped_flyp_me.instance:
-        class: PaneeDesign\FlypMeBundle\PedFlypMeBundle
+    ped_flyp_me.handler:
+        class: PaneeDesign\FlypMeBundle\Handler\PedFlypMeBundleHandler
         arguments: ["%ped_flyp_me.endpoint%", "%ped_flyp_me.content_type%"]
 
