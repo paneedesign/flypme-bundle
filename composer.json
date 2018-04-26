@@ -1,0 +1,23 @@
+{
+  "name": "paneedesign/flypme-bundle",
+  "description": "A PHP wrapper for Flyp.me APIs",
+  "type": "symfony-bundle",
+  "require": {
+    "ext-curl": "*",
+    "ext-json": "*",
+    "php": ">=7.0.0",
+    "mashape/unirest-php": "^3.0"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Vittorio Minacori",
+      "homepage": "https://github.com/vittominacori"
+    }
+  ],
+  "autoload": {
+    "psr-4": { "PaneeDesign\\FlypMeBundle\\": "" },
+    "exclude-from-classmap": ["/Tests/"]
+  },
+  "minimum-stability": "dev"
+}

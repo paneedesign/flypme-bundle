@@ -1,0 +1,9 @@
+parameters:
+    ped_flyp_me.endpoint: "https://flyp.me/api/v1/"
+    ped_flyp_me.content_type: "application/json"
+
+services:
+    ped_flyp_me.instance:
+        class: PaneeDesign\FlypMeBundle\PedFlypMeBundle
+        arguments: ["%ped_flyp_me.endpoint%", "%ped_flyp_me.content_type%"]
+
