@@ -1,6 +1,7 @@
 {
   "name": "paneedesign/flypme-bundle",
   "description": "A Symfony Bundle for Flyp.me APIs",
+  "keywords": ["flypme", "exchange", "crypto", "client", "symfony", "bundle"],
   "type": "symfony-bundle",
   "require": {
     "ext-curl": "*",
