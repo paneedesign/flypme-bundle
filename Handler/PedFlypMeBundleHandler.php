@@ -8,6 +8,7 @@
 
 namespace PaneeDesign\FlypMeBundle\Handler;
 
+use Exception;
 use Unirest;
 
 class PedFlypMeBundleHandler
@@ -15,6 +16,11 @@ class PedFlypMeBundleHandler
     private static $endpoint = '';
     private static $headers = [];
 
+    /**
+     * PedFlypMeBundleHandler constructor.
+     * @param string $endpoint
+     * @param string $contentType
+     */
     public function __construct($endpoint = '', $contentType = '')
     {
         self::$endpoint = $endpoint;
@@ -23,62 +29,151 @@ class PedFlypMeBundleHandler
             'Content-Type' => $contentType
         ];
     }
+
     // public methods
+
+    /**
+     * @return mixed
+     * @throws Exception
+     */
     public function currencies()
     {
-        return $this->get('currencies');
+        try {
+            return $this->get('currencies');
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
+
+    /**
+     * @return mixed
+     * @throws Exception
+     */
     public function dataExchangeRates()
     {
-        return $this->get('data/exchange_rates');
+        try {
+            return $this->get('data/exchange_rates');
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
+
+    /**
+     * @return mixed
+     * @throws Exception
+     */
     public function orderLimits()
     {
-        return $this->post('order/limits');
+        try {
+            return $this->post('order/limits');
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
+
+    /**
+     * @param $from_currency
+     * @param $to_currency
+     * @param $amount
+     * @param $destination
+     * @param string $type
+     * @return mixed
+     * @throws Exception
+     */
     public function orderCreate($from_currency, $to_currency, $amount, $destination, $type = "invoiced_amount")
     {
-        $body = [
-            "order" => [
-                "from_currency" => $from_currency,
-                "to_currency" => $to_currency,
-                $type => $amount,
-                "destination" => $destination
-            ]
-        ];
-        return $this->post('order/create', $body, 'json');
+        try {
+            $body = [
+                "order" => [
+                    "from_currency" => $from_currency,
+                    "to_currency" => $to_currency,
+                    $type => $amount,
+                    "destination" => $destination
+                ]
+            ];
+            return $this->post('order/create', $body, 'json');
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
+
+    /**
+     * @param $uuid
+     * @return mixed
+     * @throws Exception
+     */
     public function orderCheck($uuid)
     {
-        $body = [
-            "uuid" => $uuid
-        ];
-        return $this->post('order/check', $body, 'json');
+        try {
+            $body = [
+                "uuid" => $uuid
+            ];
+            return $this->post('order/check', $body, 'json');
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
+
+    /**
+     * @param $uuid
+     * @return mixed
+     * @throws Exception
+     */
     public function orderInfo($uuid)
     {
-        $body = [
-            "uuid" => $uuid
-        ];
-        return $this->post('order/info', $body, 'json');
+        try {
+            $body = [
+                "uuid" => $uuid
+            ];
+            return $this->post('order/info', $body, 'json');
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
+
+    /**
+     * @param $uuid
+     * @return mixed
+     * @throws Exception
+     */
     public function orderCancel($uuid)
     {
-        $body = [
-            "uuid" => $uuid
-        ];
-        return $this->post('order/cancel', $body, 'json');
+        try {
+            $body = [
+                "uuid" => $uuid
+            ];
+            return $this->post('order/cancel', $body, 'json');
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
+
     // private methods
+
+    /**
+     * @param string $method
+     * @param array $parameters
+     * @return mixed
+     * @throws Exception
+     */
     private function get($method, $parameters = [])
     {
         $apiCall = self::$endpoint . $method;
         $response = Unirest\Request::get($apiCall, self::$headers, $parameters);
         if ($response->code == 200) {
             return $response->body;
+        } else {
+            throw new Exception($response->body, $response->code);
         }
-        return $response;
     }
+
+    /**
+     * @param string $method
+     * @param array $body
+     * @param string $type
+     * @return mixed
+     * @throws Exception
+     */
     private function post($method, $body = [], $type = '')
     {
         $apiCall = self::$endpoint . $method;
@@ -88,7 +183,8 @@ class PedFlypMeBundleHandler
         $response = Unirest\Request::post($apiCall, self::$headers, $body);
         if ($response->code == 200) {
             return $response->body;
+        } else {
+            throw new \Exception($response->body, $response->code);
         }
-        return $response;
     }
 }
