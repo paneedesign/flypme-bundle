@@ -38,11 +38,7 @@ class PedFlypMeBundleHandler
      */
     public function currencies()
     {
-        try {
-            return $this->get('currencies');
-        } catch (Exception $e) {
-            throw $e;
-        }
+        return $this->get('currencies');
     }
 
     /**
@@ -51,11 +47,7 @@ class PedFlypMeBundleHandler
      */
     public function dataExchangeRates()
     {
-        try {
-            return $this->get('data/exchange_rates');
-        } catch (Exception $e) {
-            throw $e;
-        }
+        return $this->get('data/exchange_rates');
     }
 
     /**
@@ -64,11 +56,7 @@ class PedFlypMeBundleHandler
      */
     public function orderLimits()
     {
-        try {
-            return $this->post('order/limits');
-        } catch (Exception $e) {
-            throw $e;
-        }
+        return $this->post('order/limits');
     }
 
     /**
@@ -82,19 +70,15 @@ class PedFlypMeBundleHandler
      */
     public function orderCreate($from_currency, $to_currency, $amount, $destination, $type = "invoiced_amount")
     {
-        try {
-            $body = [
-                "order" => [
-                    "from_currency" => $from_currency,
-                    "to_currency" => $to_currency,
-                    $type => $amount,
-                    "destination" => $destination
-                ]
-            ];
-            return $this->post('order/create', $body, 'json');
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $body = [
+            "order" => [
+                "from_currency" => $from_currency,
+                "to_currency" => $to_currency,
+                $type => $amount,
+                "destination" => $destination
+            ]
+        ];
+        return $this->post('order/create', $body, 'json');
     }
 
     /**
@@ -104,14 +88,10 @@ class PedFlypMeBundleHandler
      */
     public function orderCheck($uuid)
     {
-        try {
-            $body = [
-                "uuid" => $uuid
-            ];
-            return $this->post('order/check', $body, 'json');
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $body = [
+            "uuid" => $uuid
+        ];
+        return $this->post('order/check', $body, 'json');
     }
 
     /**
@@ -121,14 +101,10 @@ class PedFlypMeBundleHandler
      */
     public function orderInfo($uuid)
     {
-        try {
-            $body = [
-                "uuid" => $uuid
-            ];
-            return $this->post('order/info', $body, 'json');
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $body = [
+            "uuid" => $uuid
+        ];
+        return $this->post('order/info', $body, 'json');
     }
 
     /**
@@ -138,14 +114,10 @@ class PedFlypMeBundleHandler
      */
     public function orderCancel($uuid)
     {
-        try {
-            $body = [
-                "uuid" => $uuid
-            ];
-            return $this->post('order/cancel', $body, 'json');
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $body = [
+            "uuid" => $uuid
+        ];
+        return $this->post('order/cancel', $body, 'json');
     }
 
     // private methods
@@ -184,7 +156,7 @@ class PedFlypMeBundleHandler
         if ($response->code == 200) {
             return $response->body;
         } else {
-            throw new \Exception($response->body, $response->code);
+            throw new Exception($response->body, $response->code);
         }
     }
 }
