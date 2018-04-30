@@ -204,7 +204,7 @@ result:
 
 #### Query limits
 
-Get max and min limits in {to_currency}. To get the limits in {from_currency} you must calculate it using the exchange rate.
+Get max and min limits in $toCurrency. To get the limits in $fromCurrency you must calculate it using the exchange rate.
 
 ```php
 // $flypme->orderLimits($fromCurrency, $toCurrency)
