@@ -204,32 +204,18 @@ result:
 
 #### Query limits
 
-Get max and min values that can be requested
+Get max and min limits in {to_currency}. To get the limits in {from_currency} you must calculate it using the exchange rate.
 
 ```php
-$flypme->orderLimits()
+// $flypme->orderLimits($fromCurrency, $toCurrency)
+$flypme->orderLimits('BTC', 'ETH')
 ```
 
 result: 
 
 ```json
 {
-    "BTC": {
-        "max": "0.59769291",
-        "min": "0.00000598"
-    },
-    "LTC": {
-        "max": "33.75289617",
-        "min": "0.00033753"
-    },
-    (...)
-    "PIVX": {
-        "max": "912.941625",
-        "min": "0.02004067"
-    },
-    "CREA": {
-        "max": "14081.33958578",
-        "min": "0.26647032"
-    }
+  "min": "0.006",
+  "max": "7.26915022"
 }
 ```

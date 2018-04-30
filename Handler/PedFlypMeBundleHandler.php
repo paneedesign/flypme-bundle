@@ -51,12 +51,14 @@ class PedFlypMeBundleHandler
     }
 
     /**
+     * @param string $fromCurrency
+     * @param string $toCurrency
      * @return mixed
      * @throws Exception
      */
-    public function orderLimits()
+    public function orderLimits($fromCurrency = 'BTC', $toCurrency = 'ETH')
     {
-        return $this->post('order/limits');
+        return $this->get("order/limits/{$fromCurrency}/{$toCurrency}");
     }
 
     /**
