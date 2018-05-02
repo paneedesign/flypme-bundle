@@ -25,8 +25,11 @@ class PedFlypMeExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        if (array_key_exists('maps', $config)) {
-            $container->setParameter('ped_discriminator_map.maps', $config['maps']);
+        if (array_key_exists('endpoint', $config)) {
+            $container->setParameter('ped_flyp_me.endpoint', $config['endpoint']);
+        }
+        if (array_key_exists('content_type', $config)) {
+            $container->setParameter('ped_flyp_me.content_type', $config['content_type']);
         }
     }
 }
