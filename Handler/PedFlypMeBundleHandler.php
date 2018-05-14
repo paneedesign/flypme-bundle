@@ -65,22 +65,75 @@ class PedFlypMeBundleHandler
      * @param $from_currency
      * @param $to_currency
      * @param $amount
-     * @param $destination
+     * @param string $destination
+     * @param string $refund_address
      * @param string $type
      * @return mixed
      * @throws Exception
      */
-    public function orderCreate($from_currency, $to_currency, $amount, $destination, $type = "invoiced_amount")
+    public function orderNew($from_currency, $to_currency, $amount, $destination = '', $refund_address = '', $type = "invoiced_amount")
     {
         $body = [
             "order" => [
                 "from_currency" => $from_currency,
                 "to_currency" => $to_currency,
-                $type => $amount,
-                "destination" => $destination
+                $type => $amount
             ]
         ];
-        return $this->post('order/create', $body, 'json');
+
+        if (!empty($destination)) {
+            $body["order"]["destination"] = $destination;
+        }
+
+        if (!empty($refund_address)) {
+            $body["order"]["refund_address"] = $refund_address;
+        }
+        return $this->post('order/new', $body, 'json');
+    }
+
+    /**
+     * @param $uuid
+     * @param $from_currency
+     * @param $to_currency
+     * @param $amount
+     * @param string $destination
+     * @param string $refund_address
+     * @param string $type
+     * @return mixed
+     * @throws Exception
+     */
+    public function orderUpdate($uuid, $from_currency, $to_currency, $amount, $destination = '', $refund_address = '', $type = "invoiced_amount")
+    {
+        $body = [
+            "order" => [
+                "uuid" => $uuid,
+                "from_currency" => $from_currency,
+                "to_currency" => $to_currency,
+                $type => $amount
+            ]
+        ];
+
+        if (!empty($destination)) {
+            $body["order"]["destination"] = $destination;
+        }
+
+        if (!empty($refund_address)) {
+            $body["order"]["refund_address"] = $refund_address;
+        }
+        return $this->post('order/update', $body, 'json');
+    }
+
+    /**
+     * @param $uuid
+     * @return mixed
+     * @throws Exception
+     */
+    public function orderAccept($uuid)
+    {
+        $body = [
+            "uuid" => $uuid
+        ];
+        return $this->post('order/accept', $body, 'json');
     }
 
     /**
