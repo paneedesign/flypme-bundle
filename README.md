@@ -158,7 +158,7 @@ Result will also include 'txid' and 'txurl' when the order is EXECUTED:
 
 ```json
 {
-    "status": "WAITING_FOR_DEPOSIT",
+    "status": "EXECUTED",
     "txid": "XXXXX", 
     "txurl": "https://etherscan.io/tx/XXX"
 }
