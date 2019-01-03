@@ -70,7 +70,8 @@ result:
     "from_currency": "LTC",
     "to_currency": "ZEC"
   },
-  "expires": 1199
+  "expires": 1199,
+  "refund_address": "LajyQBeZaBA1NkZDeY8YT5RYYVRkXMvb2T"
 }
 ```
 
@@ -102,7 +103,8 @@ result:
     "from_currency": "LTC",
     "to_currency": "ZEC"
   },
-  "expires": 1199
+  "expires": 1199,
+  "refund_address": "LajyQBeZaBA1NkZDeY8YT5RYYVRkXMvb2T"
 }
 ```
 
@@ -132,7 +134,8 @@ result:
     "to_currency": "ZEC"
   },
   "expires": 1053,
-  "deposit_address": "MHoWWcJzNH4aWUKvrtMwpqMggRRBsvB7va"
+  "deposit_address": "MHoWWcJzNH4aWUKvrtMwpqMggRRBsvB7va",
+  "refund_address": "LajyQBeZaBA1NkZDeY8YT5RYYVRkXMvb2T"
 }
 ```
 
@@ -140,7 +143,8 @@ result:
 
 Check order status by uuid
 
-Possible statuses are: DRAFT, WAITING_FOR_DEPOSIT, DEPOSIT_RECEIVED, DEPOSIT_CONFIRMED, EXECUTED, REFUNDED, CANCELED and EXPIRED
+Possible status are: WAITING_FOR_DEPOSIT, DEPOSIT_RECEIVED, DEPOSIT_CONFIRMED, EXECUTED, NEEDS_REFUND, REFUNDED, CANCELED and EXPIRED.  
+Possible payment_status are PENDING, UNDERPAY_RECEIVED, UNDERPAY_CONFIRMED, PAYMENT_RECEIVED, PAYMENT_CONFIRMED, OVERPAY_RECEIVED, OVERPAY_CONFIRMED. Orders with underpay or overpay will be refunded by the system.
 
 ```php
 $flypme->orderCheck("1b5929e7-0e6c-44a6-a428-e4db856d880e");
@@ -150,14 +154,26 @@ result:
 
 ```json
 {
-    "status": "WAITING_FOR_DEPOSIT"
+    "status": "WAITING_FOR_DEPOSIT",
+    "payment_status": "PENDING"
 }
 ```
 
-Result will also include 'txid' and 'txurl' when the order is EXECUTED:
+Result will also include 'confirmations' when the payment is in some XXX_RECEIVED status.
 
 ```json
 {
+    "confirmations": "3/47",
+    "payment_status": "PAYMENT_RECEIVED",
+    "status": "DEPOSIT_RECEIVED"
+}
+```
+
+Result will also include 'txid' and 'txurl' when the order is EXECUTED.
+
+```json
+{
+    "payment_status": "PAYMENT_CONFIRMED",
     "status": "EXECUTED",
     "txid": "XXXXX", 
     "txurl": "https://etherscan.io/tx/XXX"
@@ -188,11 +204,13 @@ result:
   },
   "expires": 961,
   "status": "WAITING_FOR_DEPOSIT",
-  "deposit_address": "MHoWWcJzNH4aWUKvrtMwpqMggRRBsvB7va"
+  "payment_status": "PENDING",
+  "deposit_address": "MHoWWcJzNH4aWUKvrtMwpqMggRRBsvB7va",
+  "refund_address": "LajyQBeZaBA1NkZDeY8YT5RYYVRkXMvb2T"
 }
 ```
 
-Result will also include 'txid' and 'txurl' when the order is EXECUTED:
+Result will also include 'confirmations' when the payment is in some XXX_RECEIVED status.
 
 ```json
 {
@@ -201,7 +219,19 @@ Result will also include 'txid' and 'txurl' when the order is EXECUTED:
     (...)
   },
   (...)
-  "deposit_address": "MHoWWcJzNH4aWUKvrtMwpqMggRRBsvB7va",
+  "confirmations": "47/47"
+}
+```
+
+Result will also include 'txid' and 'txurl' when the order is EXECUTED.
+
+```json
+{
+  "order": {
+    "uuid": "1b5929e7-0e6c-44a6-a428-e4db856d880e",
+    (...)
+  },
+  (...)
   "txid": "XXXXX",
   "txurl": "https://etherscan.io/tx/..."
 }
@@ -213,6 +243,22 @@ Cancel a pending order
 
 ```php
 $flypme->orderCancel("1b5929e7-0e6c-44a6-a428-e4db856d880e");
+```
+
+result: 
+
+```json
+{
+    "result": "ok"
+}
+```
+
+#### Add refund
+
+Add a refund address for orders not having one
+
+```php
+$flypme->addRefund("fc0d5579-5921-4097-8e5c-7e5ec8e7a2ea", "LajyQBeZaBA1NkZDeY8YT5RYYVRkXMvb2T");
 ```
 
 result: 
